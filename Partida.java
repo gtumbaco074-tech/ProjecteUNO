@@ -56,12 +56,32 @@ public class Partida {
         Carta cartaTirada = UI.demanarCarta(jugadorActiu, pilo);
 
         if (cartaTirada == null) {
-            // Si no ha tirat, el fem robar una carta
-            if (mazo.esBuid()) {
-                mazo.reiniciar(pilo);
-            }
-            System.out.println("Has decidit passar i chupar una carta");
+            // jugador decideix robar
+            if (mazo.esBuid()) mazo.reiniciar(pilo);
+
+            // Robem la carta i la guardem en una variable per saber quina és
             jugadorActiu.robaCarta(mazo);
+
+            // guardem la carta robada
+            Carta cartaRobada = jugadorActiu.getCartes().get(jugadorActiu.nombreDeCartes() - 1);
+
+            System.out.println("Has robat: ");
+            UI.mostrarCarta(cartaRobada);
+
+            // comprovem si la carta robada es pot tirar
+            if (cartaRobada.sonCartesCompatibles(pilo.consultarCarta())) {
+                System.out.print("Aquesta carta es pot tirar! La vols jugar? (s/n): ");
+                String resposta = new java.util.Scanner(System.in).nextLine();
+
+                if (resposta.equals("s")) {
+                    jugadorActiu.tirarCarta(cartaRobada, pilo);
+                    System.out.println("Has jugat la carta robada.");
+                } else {
+                    System.out.println("T'has guardat la carta i passes torn.");
+                }
+            } else {
+                System.out.println("No pots jugar la carta robada. Passant torn...");
+            }
         } else {
             jugadorActiu.tirarCarta(cartaTirada, pilo);
         }

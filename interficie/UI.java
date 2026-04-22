@@ -157,10 +157,10 @@ public class UI {
     public static Carta demanarCarta(Jugador jugador, Pilo pilo) {
         mostrarMa(jugador);
         do {
-            System.out.print("Escull una carta o escriu 00 per passar i chupar una carta: ");
+            System.out.print("Escull una carta o escriu 0 per chupar una carta: ");
             int indexCartaEscollida = input.nextInt();
 
-            if (indexCartaEscollida == 00) {
+            if (indexCartaEscollida == 0) {
                 return null; // El jugador decideix no tirar
             }
 
