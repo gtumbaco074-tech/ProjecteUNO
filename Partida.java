@@ -53,19 +53,18 @@ public class Partida {
         // torn() torna true si la partida s'acaba. Torna false si continua.
         Jugador jugadorActiu = ordreJugadors.getJugadorActiu();
         UI.tornJugador(jugadorActiu, pilo);
+        Carta cartaTirada = UI.demanarCarta(jugadorActiu, pilo);
 
-        boolean potTirar = jugadorActiu.potTirarCarta(pilo);
-        while (!potTirar) {
+        if (cartaTirada == null) {
+            // Si no ha tirat, el fem robar una carta
             if (mazo.esBuid()) {
                 mazo.reiniciar(pilo);
-            } else {
-                UI.senseCartes();
-                jugadorActiu.robaCarta(mazo);
-                potTirar = jugadorActiu.potTirarCarta(pilo);
             }
+            System.out.println("Has decidit passar i chupar una carta");
+            jugadorActiu.robaCarta(mazo);
+        } else {
+            jugadorActiu.tirarCarta(cartaTirada, pilo);
         }
-        Carta cartaTirada = UI.demanarCarta(jugadorActiu, pilo);
-        jugadorActiu.tirarCarta(cartaTirada,pilo);
 
         if (jugadorActiu.nombreDeCartes() <= 0) {
             return true;
